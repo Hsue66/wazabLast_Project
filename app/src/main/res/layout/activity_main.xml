@@ -160,7 +160,8 @@
                 android:layout_width="26.33dp"
                 android:layout_height="26.33dp"
                 android:layout_marginRight="13.67dp"
-                android:src="@drawable/alarm" />
+                android:src="@drawable/alarm"
+                android:id="@+id/alarmBtn" />
 
             <ImageView
                 android:layout_width="26.33dp"

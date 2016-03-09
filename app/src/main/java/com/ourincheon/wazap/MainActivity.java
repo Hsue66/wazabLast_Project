@@ -1,9 +1,11 @@
 package com.ourincheon.wazap;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
     ImageView profileImg;
     String thumbnail;
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +99,10 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             public void onClick(View v) {
                 //  Toast.makeText(getApplicationContext(), "프로필 보기", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MainActivity.this, showMypageActivity.class);
+                i.putExtra("flag",0);
+                SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                String user_id = pref.getString("user_id", "");
+                i.putExtra("user_id",user_id);
                 // i.putExtra("KakaoInfo",kakao);
                 startActivity(i);
             }
@@ -124,6 +131,17 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ContestList.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+        ImageView alarmBtn = (ImageView) findViewById(R.id.alarmBtn);
+        alarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AlarmList.class);
                 startActivity(intent);
 
             }

@@ -33,14 +33,17 @@ public class showMypageActivity extends AppCompatActivity {
     String thumbnail;
     regUser reguser;
     private TextView sName, sMajor, sUniv, sLoc, sKakao, sIntro, sExp;
+    String user_id;
+    int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_mypage);
 
-     //   RetrofitService retroService = new RetrofitService();
-     //   retroService.loadPage();
+        Intent intent = getIntent();
+        user_id =  intent.getExtras().getString("user_id");
+        flag = intent.getExtras().getInt("flag");
 
         sName = (TextView) findViewById(R.id.sName);
         sMajor = (TextView)  findViewById(R.id.sMajor);
@@ -50,12 +53,14 @@ public class showMypageActivity extends AppCompatActivity {
         sIntro = (TextView) findViewById(R.id.sIntro);
         sExp = (TextView) findViewById(R.id.sExp);
 
-        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        profileImg = (ImageView)findViewById(R.id.sPro);
-        thumbnail = pref.getString("profile_img","");
-        System.out.println(pref.getString("access_token",""));
-        ThumbnailImage thumb = new ThumbnailImage(thumbnail, profileImg);
-        thumb.execute();
+        if(flag==0) {
+            SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+            profileImg = (ImageView) findViewById(R.id.sPro);
+            thumbnail = pref.getString("profile_img", "");
+            System.out.println(pref.getString("access_token", ""));
+            ThumbnailImage thumb = new ThumbnailImage(thumbnail, profileImg);
+            thumb.execute();
+        }
 
         loadPage();
 
@@ -71,14 +76,14 @@ public class showMypageActivity extends AppCompatActivity {
 
         WazapService service = retrofit.create(WazapService.class);
 
-        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        String user_id = pref.getString("user_id", "");
+//        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+ //       String user_id = pref.getString("user_id", "");
         Log.d("SUCCESS", user_id );
 
         Call<regUser> call = service.getUserInfo(user_id);
         call.enqueue(new Callback<regUser>() {
             @Override
-            public void onResponse( Response<regUser> response) {
+            public void onResponse(Response<regUser> response) {
                 if (response.isSuccess() && response.body() != null) {
 
                     Log.d("SUCCESS", response.message());
@@ -88,13 +93,13 @@ public class showMypageActivity extends AppCompatActivity {
                     //Log.d("SUCCESS", reguser.getMsg());
 
                     String result = new Gson().toJson(reguser);
-                    Log.d("SUCESS-----",result);
+                    Log.d("SUCESS-----", result);
 
                     JSONObject jsonRes;
-                    try{
+                    try {
                         jsonRes = new JSONObject(result);
                         JSONArray jsonArr = jsonRes.getJSONArray("data");
-                        Log.d("username",jsonArr.getJSONObject(0).getString("username"));
+                        Log.d("username", jsonArr.getJSONObject(0).getString("username"));
                         sName.setText(jsonArr.getJSONObject(0).getString("username"));
                         sMajor.setText(jsonArr.getJSONObject(0).getString("major"));
                         sUniv.setText(jsonArr.getJSONObject(0).getString("school"));
@@ -102,8 +107,9 @@ public class showMypageActivity extends AppCompatActivity {
                         sKakao.setText(jsonArr.getJSONObject(0).getString("kakao_id"));
                         sIntro.setText(jsonArr.getJSONObject(0).getString("introduce"));
                         sExp.setText(jsonArr.getJSONObject(0).getString("exp"));
-                    }catch (JSONException e)
-                    {};
+                    } catch (JSONException e) {
+                    }
+                    ;
 
                 } else if (response.isSuccess()) {
                     Log.d("Response Body isNull", response.message());
@@ -113,7 +119,7 @@ public class showMypageActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure( Throwable t) {
+            public void onFailure(Throwable t) {
                 t.printStackTrace();
                 Log.e("Errorglg''';kl", t.getMessage());
             }
@@ -124,7 +130,10 @@ public class showMypageActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_mypage, menu);
+
+        if(flag==0) {
+            getMenuInflater().inflate(R.menu.menu_show_mypage, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -135,10 +144,13 @@ public class showMypageActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_edit) {
-            Intent i = new Intent(showMypageActivity.this, MypageActivity.class);
-            startActivity(i);
+
+        if(flag==0) {
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_edit) {
+                Intent i = new Intent(showMypageActivity.this, MypageActivity.class);
+                startActivity(i);
+            }
         }
 
         return super.onOptionsItemSelected(item);

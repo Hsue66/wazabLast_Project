@@ -29,10 +29,21 @@ public class ContestInfo {
     String positions;
     @SerializedName("recruitment")
     int recruitment;
+    @SerializedName("cont_locate")
+    String cont_locate;
+
 
     public ContestInfo(){
         //categories = new JSONArray();
         categories = new ArrayList<String>();
+    }
+
+    public String getCont_locate() {
+        return cont_locate;
+    }
+
+    public void setCont_locate(String cont_locate) {
+        this.cont_locate = cont_locate;
     }
 
     public void setAccess_token(String access_token) {
