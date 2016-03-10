@@ -168,10 +168,9 @@ public interface WazapService {
     );
 
     // 신청글 취소하기
-    @DELETE("contests/{contest_id}/{applies_id}")
+    @DELETE("contests/{contest_id}/join")
     Call<LinkedTreeMap> delApply(
             @Path("contest_id") String contest_id,
-            @Path("applies_id") String applies_id,
             @Query("access_token") String access_token
     );
 }

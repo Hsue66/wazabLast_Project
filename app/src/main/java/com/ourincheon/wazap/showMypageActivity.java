@@ -1,5 +1,6 @@
 package com.ourincheon.wazap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,10 +30,11 @@ import retrofit2.Retrofit;
  */
 public class showMypageActivity extends AppCompatActivity {
 
+    public static Context showContext;
     ImageView profileImg;
     String thumbnail;
     regUser reguser;
-    private TextView sName, sMajor, sUniv, sLoc, sKakao, sIntro, sExp;
+    private TextView sName, sMajor, sUniv, sLoc, sKakao, sIntro, sExp,sSkill;
     String user_id;
     int flag;
 
@@ -41,6 +43,7 @@ public class showMypageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_mypage);
 
+        showContext = this;
         Intent intent = getIntent();
         user_id =  intent.getExtras().getString("user_id");
         flag = intent.getExtras().getInt("flag");
@@ -52,6 +55,7 @@ public class showMypageActivity extends AppCompatActivity {
         sKakao = (TextView)  findViewById(R.id.sKakao);
         sIntro = (TextView) findViewById(R.id.sIntro);
         sExp = (TextView) findViewById(R.id.sExp);
+        sSkill = (TextView) findViewById(R.id.sSkill);
 
         if(flag==0) {
             SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
@@ -66,6 +70,30 @@ public class showMypageActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    /*    sName = (TextView) findViewById(R.id.sName);
+        sMajor = (TextView)  findViewById(R.id.sMajor);
+        sUniv = (TextView)  findViewById(R.id.sUniv);
+        sLoc = (TextView)  findViewById(R.id.sLoc);
+        sKakao = (TextView)  findViewById(R.id.sKakao);
+        sIntro = (TextView) findViewById(R.id.sIntro);
+        sExp = (TextView) findViewById(R.id.sExp);
+        sSkill = (TextView) findViewById(R.id.sSkill);
+
+        if(flag==0) {
+            SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+            profileImg = (ImageView) findViewById(R.id.sPro);
+            thumbnail = pref.getString("profile_img", "");
+            System.out.println(pref.getString("access_token", ""));
+            ThumbnailImage thumb = new ThumbnailImage(thumbnail, profileImg);
+            thumb.execute();
+        }
+*/
+        loadPage();
+    }
 
     void loadPage()
     {
@@ -107,9 +135,9 @@ public class showMypageActivity extends AppCompatActivity {
                         sKakao.setText(jsonArr.getJSONObject(0).getString("kakao_id"));
                         sIntro.setText(jsonArr.getJSONObject(0).getString("introduce"));
                         sExp.setText(jsonArr.getJSONObject(0).getString("exp"));
+                        sSkill.setText(jsonArr.getJSONObject(0).getString("skill"));
                     } catch (JSONException e) {
                     }
-                    ;
 
                 } else if (response.isSuccess()) {
                     Log.d("Response Body isNull", response.message());

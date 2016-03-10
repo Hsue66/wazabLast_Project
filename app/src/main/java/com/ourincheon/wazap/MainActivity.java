@@ -20,8 +20,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 /*
@@ -59,6 +61,30 @@ public class MainActivity extends AppCompatActivity implements OnNavigationItemS
                 //        .setAction("Action", null).show();
             }
         });
+
+
+        final TextView spinnerT =(TextView)findViewById(R.id.spinnerT);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+     //           spinnerT.setText(""+parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+     /*   final TextView spinnerT =(TextView)findViewById(R.id.spinnerT);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemClickListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                spinnerT.setText(""+parent.getItemAtPosition(position));
+            }
+        });
+*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

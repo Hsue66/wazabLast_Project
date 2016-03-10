@@ -19,6 +19,8 @@ public class UserInfo {
     int age;
     @SerializedName("major")
     String major;
+    @SerializedName("skill")
+    String skill;
     @SerializedName("locate")
     String locate;
     @SerializedName("introduce")
@@ -27,7 +29,7 @@ public class UserInfo {
     String exp;
 
     public UserInfo(){};
-    public UserInfo(String access_token, String kakao_id, String username, String school, int age, String major,String locate, String introduce, String exp)
+    public UserInfo(String access_token, String kakao_id, String username, String school, int age, String major, String skill ,String locate, String introduce, String exp)
     {
         this.access_token = access_token;
         this.kakao_id = kakao_id;
@@ -38,6 +40,11 @@ public class UserInfo {
         this.locate = locate;
         this.introduce = introduce;
         this.exp = exp;
+        this.skill = skill;
+    }
+
+    public String getSkill() {
+        return skill;
     }
 
     public String getAccess_token() {

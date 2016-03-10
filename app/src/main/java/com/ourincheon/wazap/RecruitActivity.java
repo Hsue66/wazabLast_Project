@@ -108,6 +108,7 @@ public class RecruitActivity extends AppCompatActivity {
             //reLoc.setText(con.getLoc());
             reIntro.setText(con.getCover());
             rePos.setText(con.getPositions());
+            reLoc.setText(con.getCont_locate());
             contest_id = con.getContests_id();
         }
 

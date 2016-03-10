@@ -93,7 +93,6 @@ public class JoinActivity extends AppCompatActivity {
         jPro.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),Writer, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(JoinActivity.this, showMypageActivity.class);
                 intent.putExtra("user_id", Writer);
                 intent.putExtra("flag",1);
