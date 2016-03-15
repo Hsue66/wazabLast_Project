@@ -57,6 +57,7 @@ public class MypageActivity extends AppCompatActivity {
         eSkill = (EditText) findViewById(R.id.eSkill);
 
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        access_token = pref.getString("access_token", "");
         profileImg = (ImageView)findViewById(R.id.ePro);
         thumbnail = pref.getString("profile_img","");
         ThumbnailImage thumb = new ThumbnailImage(thumbnail, profileImg);
@@ -153,7 +154,7 @@ public class MypageActivity extends AppCompatActivity {
 
             SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
 
-            userInfo = new UserInfo(pref.getString("access_token", ""), kakao_id, username, school, 94, major , skill, locate, introduce, exp);
+            userInfo = new UserInfo( kakao_id, username, school, 94, major , skill, locate, introduce, exp);
 
             if(major.equals("") || locate.equals("") || kakao_id.equals("") || skill.equals("") || introduce.equals("") || exp.equals(""))
                 Toast.makeText(getApplicationContext(), "필수사항을 모두 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -168,10 +169,8 @@ public class MypageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void postInfo(UserInfo userInfo) {
-
-        System.out.println(userInfo.getAccess_token());
-        System.out.println(userInfo.getAge());
+    void postInfo(UserInfo userInfo)
+    {
          Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://come.n.get.us.to")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -179,7 +178,7 @@ public class MypageActivity extends AppCompatActivity {
 
         WazapService service = retrofit.create(WazapService.class);
 
-        Call<regMsg> call = service.createInfo(userInfo);
+        Call<regMsg> call = service.createInfo(access_token, userInfo);
         call.enqueue(new Callback<regMsg>() {
             @Override
             public void onResponse( Response<regMsg> response) {

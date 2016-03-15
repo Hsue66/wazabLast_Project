@@ -65,7 +65,6 @@ public class RecruitActivity extends AppCompatActivity {
 
         access_token = pref.getString("access_token", "");
         contest2 = new ContestInfo();
-        contest2.setAccess_token(access_token);
 
         reTitle = (EditText) findViewById(R.id.reTitle);
         reHost = (EditText) findViewById(R.id.reHost);
@@ -161,8 +160,7 @@ public class RecruitActivity extends AppCompatActivity {
         WazapService service = client.create(WazapService.class);
 
         System.out.println(String.valueOf(contest_id));
-        System.out.println(contest.getAccess_token());
-        Call<LinkedTreeMap> call = service.editContest(String.valueOf(contest_id), contest);
+        Call<LinkedTreeMap> call = service.editContest(access_token,String.valueOf(contest_id), contest);
         call.enqueue(new Callback<LinkedTreeMap>() {
             @Override
             public void onResponse(Response<LinkedTreeMap> response) {
@@ -188,7 +186,6 @@ public class RecruitActivity extends AppCompatActivity {
                 }
                 else {
                     Log.d("Response Error Body", response.errorBody().toString());
-                    System.out.println("------------------"+contest2.getAccess_token());
                     System.out.println(response.code());
                 }
             }
@@ -209,7 +206,7 @@ public class RecruitActivity extends AppCompatActivity {
                 .build();
         WazapService service = client.create(WazapService.class);
 
-        Call<LinkedTreeMap> call = service.createContests(contest);
+        Call<LinkedTreeMap> call = service.createContests(access_token, contest);
         call.enqueue(new Callback<LinkedTreeMap>() {
             @Override
             public void onResponse(Response<LinkedTreeMap> response) {
@@ -235,14 +232,13 @@ public class RecruitActivity extends AppCompatActivity {
                 }
                 else {
                     Log.d("Response Error Body", response.errorBody().toString());
-                    System.out.println("------------------"+contest2.getAccess_token());
                     System.out.println(response.code());
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Log.e("Error", t.getMessage());
+                Log.e("Error", "errormsg"+t.getMessage());
             }
         });
     }
