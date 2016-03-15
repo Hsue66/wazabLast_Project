@@ -45,7 +45,7 @@ import retrofit2.Retrofit;
 
 public class RecruitActivity extends AppCompatActivity {
 
-    EditText reTitle, reHost, reNum, reIntro, reLoc, rePos;
+    EditText reTitle, reCTitle, reHost, reNum, reIntro, reLoc, rePos;
     Button reDate, reBack;
     TextView save;
     ImageView profileImg;
@@ -67,6 +67,7 @@ public class RecruitActivity extends AppCompatActivity {
         contest2 = new ContestInfo();
 
         reTitle = (EditText) findViewById(R.id.reTitle);
+        reCTitle = (EditText) findViewById(R.id.reCTitle);
         reHost = (EditText) findViewById(R.id.reHost);
         reNum = (EditText) findViewById(R.id.reNum);
  /////       reDate = (EditText) findViewById(R.id.reDate);
@@ -100,6 +101,7 @@ public class RecruitActivity extends AppCompatActivity {
         if (mode == 1) {
             System.out.println("----------------------------------------------");
             reTitle.setText(con.getTitle());
+            reCTitle.setText(con.getCont_title());
             System.out.println(con.getTitle());
             reHost.setText(con.getHosts());
             reNum.setText(String.valueOf(con.getRecruitment()));
@@ -117,6 +119,7 @@ public class RecruitActivity extends AppCompatActivity {
             public void onClick(View v) {
  //               Toast.makeText(getApplicationContext(), reDate.getText().toString(), Toast.LENGTH_SHORT).show();
                 contest2.setTitle(reTitle.getText().toString());
+                contest2.setCont_title(reCTitle.getText().toString());
                 contest2.setRecruitment(Integer.parseInt(reNum.getText().toString()));
                 contest2.setHosts(reHost.getText().toString());
                 contest2.setCover(reIntro.getText().toString());
